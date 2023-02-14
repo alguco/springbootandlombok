@@ -8,8 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.github.javafaker.Faker;
-import com.springboot.lombok.model.Account;
-import com.springboot.lombok.service.AccountService;
+import com.springboot.lombok.model.Transaction;
+import com.springboot.lombok.service.TransactionService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,36 +19,38 @@ import lombok.extern.slf4j.Slf4j;
 // Causes lombok to generate a constructor with 1 parameter for each field that requires special handling.
 @RequiredArgsConstructor
 @Component
-public class DefaultAccountLoader implements CommandLineRunner {
+public class DefaultTransactionLoader implements CommandLineRunner {
 
-    private final AccountService accountService;
+    private final TransactionService transactionService;
     private final Faker faker;
 
     @Override
     public void run(String... args) {
-        loadAccountsData();
+        loadTransactionsData();
     }
 
-    private void loadAccountsData() {
-        if (accountService.getAccountsCount() == 0) {
-            log.info("Saving the default accounts into the database.");
+    private void loadTransactionsData() {
+        if (transactionService.getTransactionsCount() == 0) {
+            log.info("Saving the default transactions into the database.");
             for (int x = 0; x < 5; x++) {
-                accountService.save(createNewAccount());
+                transactionService.save(createNewTransaction());
             }
         } else {
-            log.info("Default accounts are already present in the database.");
+            log.info("Default transactions are already present in the database.");
         }
     }
 
-    private Account createNewAccount() {
+    private Transaction createNewTransaction() {
         final int randomNumber = new Random().nextInt(10 - 5 + 1) + 5;
-        return Account.builder()
-                .clientId(faker.code().isbn10())
+        return Transaction.builder()
+        		.id(faker.number().numberBetween(50,10000))
+                .number(faker.code().isbn10())
+               
                 .amount(faker.number().numberBetween(50, 20000))
-                .residence(faker.address().city())
+              
+               
                 .designation(faker.address().country())
-                .amount(faker.number().numberBetween(50, 20000))
-                .createdOn(LocalDateTime.now().minusHours(randomNumber)
+                .hour(LocalDateTime.now().minusHours(randomNumber)
                         .minus(Period.ofWeeks(randomNumber)))
                 .build();
     }
