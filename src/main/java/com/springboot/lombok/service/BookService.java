@@ -31,11 +31,22 @@ public class BookService {
         return bookRepository.findById(bookId);
     }
 
-    public List<Book> getAllBooksByGenre(final String genre) {
-        return bookRepository.findBookByGenre(genre);
+    public List<Book> getAllBooksByName(final String genre) {
+        return bookRepository.findBookByName(genre);
     }
 
-    public List<Book> getAllBooksByQuantityGreaterThanEqual(final int quantity) {
+    public List<Book> getAllBooksByPhoneGreaterThanEqual(final int quantity) {
         return bookRepository.findBookByQuantityGreaterThanEqual(quantity);
     }
+
+	public List<Book> getAllBooksByGenre(String genre) {
+		return bookRepository.findBookByGenre(genre);
+	}
+
+	public List<Book> getAllBooksByQuantityGreaterThanEqual(final int quantity) {
+		return bookRepository.findBookByQuantityGreaterThanEqual(quantity);
+		
+	}
+
+	
 }

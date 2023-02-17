@@ -13,4 +13,6 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
     List<Book> findBookByGenre(String genre);
 
     List<Book> findBookByQuantityGreaterThanEqual(int quantity);
+
+	List<Book> findBookByName(String genre);
 }
